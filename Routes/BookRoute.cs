@@ -50,8 +50,59 @@ namespace BookManagerApi.Routes
 
                 return Results.Ok(book);
             });
-
             
+            route.MapPut("{guid:id}", async (Guid id, BookRequest req,BookDbContext context) =>
+            {
+                var book = await context.Books.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (book == null)
+                {
+                    return Results.NotFound();
+                }
+
+                book.Nome = req.Nome;
+                book.Genero = req.Genero;
+                book.Autor = req.Autor;
+
+                try
+                {
+
+                    await context.SaveChangesAsync();
+                    return Results.Ok(book);
+                }
+                catch (Exception)
+                {
+                    return Results.StatusCode(StatusCodes.Status500InternalServerError);
+                }
+
+            });
+
+            route.MapDelete("{guid:id}", async (Guid id, BookDbContext context) =>
+            {
+                var book = await context.Books.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (book == null)
+                {
+                    return Results.NotFound();
+                }
+
+                try
+                {
+                    context.Books.Remove(book);
+                    await context.SaveChangesAsync();
+                    return Results.NoContent();
+
+                }
+                catch (DbUpdateException e)
+                {
+                    return Results.BadRequest($"Erro ao deletar o livro: {e.Message}");
+                }
+                catch (Exception)
+                {
+                    return Results.StatusCode(StatusCodes.Status500InternalServerError);
+                }
+
+            });
         }
     }
 }
