@@ -1,4 +1,5 @@
 using BookManagerApi.Data;
+using BookManagerApi.Routes;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.BookRoutes();
 
 app.UseHttpsRedirection();
 app.Run();
