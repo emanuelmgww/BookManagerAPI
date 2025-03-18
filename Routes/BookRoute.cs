@@ -39,7 +39,7 @@ namespace BookManagerApi.Routes
                 return Results.Ok(books);
             });
 
-            route.MapGet("{guid:id}", async (Guid id, BookDbContext context) =>
+            route.MapGet("{id:guid}", async (Guid id, BookDbContext context) =>
             {   
                 var book = await context.Books.FindAsync(id);
 
@@ -51,7 +51,7 @@ namespace BookManagerApi.Routes
                 return Results.Ok(book);
             });
             
-            route.MapPut("{guid:id}", async (Guid id, BookRequest req,BookDbContext context) =>
+            route.MapPut("{id:guid}", async (Guid id, BookRequest req,BookDbContext context) =>
             {
                 var book = await context.Books.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -76,7 +76,7 @@ namespace BookManagerApi.Routes
                 }
             });
 
-            route.MapDelete("{guid:id}", async (Guid id, BookDbContext context) =>
+            route.MapDelete("{id:guid}", async (Guid id, BookDbContext context) =>
             {
                 var book = await context.Books.FirstOrDefaultAsync(x => x.Id == id);
 
