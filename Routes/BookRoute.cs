@@ -10,7 +10,7 @@ namespace BookManagerApi.Routes
 {
     public static class BookRoute
     {
-        public static void BookRoutes(WebApplication app)
+        public static void BookRoutes(this WebApplication app)
         {
             var route = app.MapGroup("book");
 
@@ -74,7 +74,6 @@ namespace BookManagerApi.Routes
                 {
                     return Results.StatusCode(StatusCodes.Status500InternalServerError);
                 }
-
             });
 
             route.MapDelete("{guid:id}", async (Guid id, BookDbContext context) =>
